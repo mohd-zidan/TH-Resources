@@ -6,23 +6,97 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * Supported timezones in IANA format.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "supportedTimezones".
+ */
+export type SupportedTimezones =
+  | 'Pacific/Midway'
+  | 'Pacific/Niue'
+  | 'Pacific/Honolulu'
+  | 'Pacific/Rarotonga'
+  | 'America/Anchorage'
+  | 'Pacific/Gambier'
+  | 'America/Los_Angeles'
+  | 'America/Tijuana'
+  | 'America/Denver'
+  | 'America/Phoenix'
+  | 'America/Chicago'
+  | 'America/Guatemala'
+  | 'America/New_York'
+  | 'America/Bogota'
+  | 'America/Caracas'
+  | 'America/Santiago'
+  | 'America/Buenos_Aires'
+  | 'America/Sao_Paulo'
+  | 'Atlantic/South_Georgia'
+  | 'Atlantic/Azores'
+  | 'Atlantic/Cape_Verde'
+  | 'Europe/London'
+  | 'Europe/Berlin'
+  | 'Africa/Lagos'
+  | 'Europe/Athens'
+  | 'Africa/Cairo'
+  | 'Europe/Moscow'
+  | 'Asia/Riyadh'
+  | 'Asia/Dubai'
+  | 'Asia/Baku'
+  | 'Asia/Karachi'
+  | 'Asia/Tashkent'
+  | 'Asia/Calcutta'
+  | 'Asia/Dhaka'
+  | 'Asia/Almaty'
+  | 'Asia/Jakarta'
+  | 'Asia/Bangkok'
+  | 'Asia/Shanghai'
+  | 'Asia/Singapore'
+  | 'Asia/Tokyo'
+  | 'Asia/Seoul'
+  | 'Australia/Brisbane'
+  | 'Australia/Sydney'
+  | 'Pacific/Guam'
+  | 'Pacific/Noumea'
+  | 'Pacific/Auckland'
+  | 'Pacific/Fiji';
+
 export interface Config {
   auth: {
     users: UserAuthOperations;
   };
+  blocks: {};
   collections: {
     users: User;
     media: Media;
+    memberships: Membership;
+    events: Event;
+    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
+  collectionsJoins: {};
+  collectionsSelect: {
+    users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    memberships: MembershipsSelect<false> | MembershipsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+  };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {};
+  globalsSelect: {};
   locale: null;
   user: User & {
     collection: 'users';
+  };
+  jobs: {
+    tasks: unknown;
+    workflows: unknown;
   };
 }
 export interface UserAuthOperations {
@@ -48,7 +122,9 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
+  phone_number: string;
+  phone_hash?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -65,7 +141,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -81,13 +157,167 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "memberships".
+ */
+export interface Membership {
+  id: number;
+  name?: string | null;
+  username?: string | null;
+  avatar?: string | null;
+  bio?: string | null;
+  github?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  twitter?: string | null;
+  user_id?: number | null;
+  org_id?: number | null;
+  sub_org_id?: number | null;
+  role_id?: number | null;
+  unique_id?: string | null;
+  sex?: string | null;
+  interests?: string | null;
+  is_student?: boolean | null;
+  is_approved?: boolean | null;
+  company_name?: string | null;
+  job_type?: string | null;
+  invited_by?: number | null;
+  email?: string | null;
+  enable_communication?: boolean | null;
+  birthday?: string | null;
+  course?: string | null;
+  stream?: string | null;
+  year_of_admission?: number | null;
+  year_of_graduation?: number | null;
+  skills?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  is_onboard?: boolean | null;
+  discord_id?: string | null;
+  theme?: string | null;
+  github_token?: string | null;
+  username_id?: number | null;
+  is_private?: boolean | null;
+  tshirt_size?: string | null;
+  checkin_report_submitted?: boolean | null;
+  address?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  is_guest?: boolean | null;
+  status?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  name?: string | null;
+  type?: string | null;
+  description?: string | null;
+  start_date?: string | null;
+  end_date?: string | null;
+  banner?: string | null;
+  org_id?: number | null;
+  sub_org_id?: number | null;
+  featured?: boolean | null;
+  unique_id?: string | null;
+  campus_exclusive?: boolean | null;
+  location?: string | null;
+  map_url?: string | null;
+  status?: string | null;
+  is_invite_only?: boolean | null;
+  is_virtual?: boolean | null;
+  is_limited_seats?: boolean | null;
+  number_of_seats?: number | null;
+  seats_available?: number | null;
+  is_external?: boolean | null;
+  is_space?: boolean | null;
+  is_project_based?: boolean | null;
+  meet_url?: string | null;
+  project_submission_deadline?: string | null;
+  allow_non_github_links?: boolean | null;
+  is_team_project_submission?: boolean | null;
+  external_event_url?: string | null;
+  interests?: string | null;
+  skills?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  pre_invite?: boolean | null;
+  report_submitted?: boolean | null;
+  team_event?: boolean | null;
+  team_size?: number | null;
+  multiple_venue?: boolean | null;
+  discord_channel_url?: string | null;
+  discord_channel_name?: string | null;
+  is_dependent?: boolean | null;
+  has_prize?: boolean | null;
+  registration_deadline?: string | null;
+  group_id?: number | null;
+  prize_claim_deadline?: string | null;
+  group_mandatory?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: number;
+  document?:
+    | ({
+        relationTo: 'users';
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'memberships';
+        value: number | Membership;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'users';
+    value: number | User;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -107,11 +337,175 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  phone_number?: T;
+  phone_hash?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "memberships_select".
+ */
+export interface MembershipsSelect<T extends boolean = true> {
+  name?: T;
+  username?: T;
+  avatar?: T;
+  bio?: T;
+  github?: T;
+  instagram?: T;
+  linkedin?: T;
+  twitter?: T;
+  user_id?: T;
+  org_id?: T;
+  sub_org_id?: T;
+  role_id?: T;
+  unique_id?: T;
+  sex?: T;
+  interests?: T;
+  is_student?: T;
+  is_approved?: T;
+  company_name?: T;
+  job_type?: T;
+  invited_by?: T;
+  email?: T;
+  enable_communication?: T;
+  birthday?: T;
+  course?: T;
+  stream?: T;
+  year_of_admission?: T;
+  year_of_graduation?: T;
+  skills?: T;
+  is_onboard?: T;
+  discord_id?: T;
+  theme?: T;
+  github_token?: T;
+  username_id?: T;
+  is_private?: T;
+  tshirt_size?: T;
+  checkin_report_submitted?: T;
+  address?: T;
+  is_guest?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  name?: T;
+  type?: T;
+  description?: T;
+  start_date?: T;
+  end_date?: T;
+  banner?: T;
+  org_id?: T;
+  sub_org_id?: T;
+  featured?: T;
+  unique_id?: T;
+  campus_exclusive?: T;
+  location?: T;
+  map_url?: T;
+  status?: T;
+  is_invite_only?: T;
+  is_virtual?: T;
+  is_limited_seats?: T;
+  number_of_seats?: T;
+  seats_available?: T;
+  is_external?: T;
+  is_space?: T;
+  is_project_based?: T;
+  meet_url?: T;
+  project_submission_deadline?: T;
+  allow_non_github_links?: T;
+  is_team_project_submission?: T;
+  external_event_url?: T;
+  interests?: T;
+  skills?: T;
+  pre_invite?: T;
+  report_submitted?: T;
+  team_event?: T;
+  team_size?: T;
+  multiple_venue?: T;
+  discord_channel_url?: T;
+  discord_channel_name?: T;
+  is_dependent?: T;
+  has_prize?: T;
+  registration_deadline?: T;
+  group_id?: T;
+  prize_claim_deadline?: T;
+  group_mandatory?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents_select".
+ */
+export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences_select".
+ */
+export interface PayloadPreferencesSelect<T extends boolean = true> {
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations_select".
+ */
+export interface PayloadMigrationsSelect<T extends boolean = true> {
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
