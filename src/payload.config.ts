@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
-import { Media } from './collections/Media'
 import { Resources } from './collections/Resources'
 // Commenting out Memberships and Events as they are being removed
 // import { Memberships } from './collections/Memberships'
@@ -28,7 +27,6 @@ export default buildConfig({
   },
   collections: [
     Users,
-    Media,
     Resources,
     // Memberships,
     // Events
