@@ -1,0 +1,5 @@
+[
+  { "label": "Workshops", "value": "workshops" },
+  { "label": "Bootcamps", "value": "bootcamps" },
+  { "label": "Talks", "value": "talks" }
+]

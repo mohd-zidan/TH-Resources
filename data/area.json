@@ -1,0 +1,6 @@
+[
+  { "label": "Web Development", "value": "web_development" },
+  { "label": "Mobile Development", "value": "mobile_development" },
+  { "label": "AI/ML", "value": "ai_ml" },
+  { "label": "DevOps", "value": "devops" }
+]

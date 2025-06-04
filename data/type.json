@@ -1,0 +1,5 @@
+[
+  { "label": "Technical", "value": "technical" },
+  { "label": "Non-Technical", "value": "non-technical" },
+  { "label": "Career", "value": "career" }
+]

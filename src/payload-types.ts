@@ -69,8 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    memberships: Membership;
-    events: Event;
+    resources: Resource;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,8 +78,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    memberships: MembershipsSelect<false> | MembershipsSelect<true>;
-    events: EventsSelect<false> | EventsSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -123,8 +121,6 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
-  phone_number: string;
-  phone_hash?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -157,124 +153,95 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "memberships".
+ * via the `definition` "resources".
  */
-export interface Membership {
+export interface Resource {
   id: number;
-  name?: string | null;
-  username?: string | null;
-  avatar?: string | null;
-  bio?: string | null;
-  github?: string | null;
-  instagram?: string | null;
-  linkedin?: string | null;
-  twitter?: string | null;
-  user_id?: number | null;
-  org_id?: number | null;
-  sub_org_id?: number | null;
-  role_id?: number | null;
-  unique_id?: string | null;
-  sex?: string | null;
-  interests?: string | null;
-  is_student?: boolean | null;
-  is_approved?: boolean | null;
-  company_name?: string | null;
-  job_type?: string | null;
-  invited_by?: number | null;
-  email?: string | null;
-  enable_communication?: boolean | null;
-  birthday?: string | null;
-  course?: string | null;
-  stream?: string | null;
-  year_of_admission?: number | null;
-  year_of_graduation?: number | null;
-  skills?:
+  /**
+   * The primary name of the resource.
+   */
+  name: string;
+  /**
+   * Categorize the resource. Type to search or create new.
+   */
+  category: string;
+  /**
+   * Specify the type of resource (e.g., technical, non-technical).
+   */
+  type: string;
+  /**
+   * Define the specific area or domain of the resource.
+   */
+  area: string;
+  /**
+   * A brief overview of the resource.
+   */
+  summary: string;
+  /**
+   * The main objective or goal of this resource/event.
+   */
+  purpose?: string | null;
+  /**
+   * Detailed steps, agenda, or methodology.
+   */
+  process?: string | null;
+  /**
+   * What participants or users should gain or achieve.
+   */
+  expected_outcome?: string | null;
+  /**
+   * List the potential or actual impacts of this resource.
+   */
+  impact?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        impact_item: string;
+        id?: string | null;
+      }[]
     | null;
-  is_onboard?: boolean | null;
-  discord_id?: string | null;
-  theme?: string | null;
-  github_token?: string | null;
-  username_id?: number | null;
-  is_private?: boolean | null;
-  tshirt_size?: string | null;
-  checkin_report_submitted?: boolean | null;
-  address?:
+  /**
+   * Items to check or prepare before the event/activity.
+   */
+  pre_event_checklist?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        checklist_item: string;
+        id?: string | null;
+      }[]
     | null;
-  is_guest?: boolean | null;
-  status?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
- */
-export interface Event {
-  id: number;
-  name?: string | null;
-  type?: string | null;
-  description?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
-  banner?: string | null;
-  org_id?: number | null;
-  sub_org_id?: number | null;
-  featured?: boolean | null;
-  unique_id?: string | null;
-  campus_exclusive?: boolean | null;
-  location?: string | null;
-  map_url?: string | null;
-  status?: string | null;
-  is_invite_only?: boolean | null;
-  is_virtual?: boolean | null;
-  is_limited_seats?: boolean | null;
-  number_of_seats?: number | null;
-  seats_available?: number | null;
-  is_external?: boolean | null;
-  is_space?: boolean | null;
-  is_project_based?: boolean | null;
-  meet_url?: string | null;
-  project_submission_deadline?: string | null;
-  allow_non_github_links?: boolean | null;
-  is_team_project_submission?: boolean | null;
-  external_event_url?: string | null;
-  interests?: string | null;
-  skills?:
+  /**
+   * Items to follow up on after the event/activity.
+   */
+  post_event_checklist?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        checklist_item: string;
+        id?: string | null;
+      }[]
     | null;
-  pre_invite?: boolean | null;
-  report_submitted?: boolean | null;
-  team_event?: boolean | null;
-  team_size?: number | null;
-  multiple_venue?: boolean | null;
-  discord_channel_url?: string | null;
-  discord_channel_name?: string | null;
-  is_dependent?: boolean | null;
-  has_prize?: boolean | null;
-  registration_deadline?: string | null;
-  group_id?: number | null;
-  prize_claim_deadline?: string | null;
-  group_mandatory?: boolean | null;
+  /**
+   * Name or group responsible for curating this resource.
+   */
+  curated_by?: string | null;
+  /**
+   * The intended audience for this resource (e.g., beginners, experts).
+   */
+  audience?: string | null;
+  /**
+   * List of related materials, links, or tools.
+   */
+  resources_list?:
+    | {
+        resource_item: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Key information related to an event if this resource is for one.
+   */
+  event_details?:
+    | {
+        event_item: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -294,12 +261,8 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'memberships';
-        value: number | Membership;
-      } | null)
-    | ({
-        relationTo: 'events';
-        value: number | Event;
+        relationTo: 'resources';
+        value: number | Resource;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -348,8 +311,6 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  phone_number?: T;
-  phone_hash?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -380,98 +341,49 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "memberships_select".
+ * via the `definition` "resources_select".
  */
-export interface MembershipsSelect<T extends boolean = true> {
+export interface ResourcesSelect<T extends boolean = true> {
   name?: T;
-  username?: T;
-  avatar?: T;
-  bio?: T;
-  github?: T;
-  instagram?: T;
-  linkedin?: T;
-  twitter?: T;
-  user_id?: T;
-  org_id?: T;
-  sub_org_id?: T;
-  role_id?: T;
-  unique_id?: T;
-  sex?: T;
-  interests?: T;
-  is_student?: T;
-  is_approved?: T;
-  company_name?: T;
-  job_type?: T;
-  invited_by?: T;
-  email?: T;
-  enable_communication?: T;
-  birthday?: T;
-  course?: T;
-  stream?: T;
-  year_of_admission?: T;
-  year_of_graduation?: T;
-  skills?: T;
-  is_onboard?: T;
-  discord_id?: T;
-  theme?: T;
-  github_token?: T;
-  username_id?: T;
-  is_private?: T;
-  tshirt_size?: T;
-  checkin_report_submitted?: T;
-  address?: T;
-  is_guest?: T;
-  status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events_select".
- */
-export interface EventsSelect<T extends boolean = true> {
-  name?: T;
+  category?: T;
   type?: T;
-  description?: T;
-  start_date?: T;
-  end_date?: T;
-  banner?: T;
-  org_id?: T;
-  sub_org_id?: T;
-  featured?: T;
-  unique_id?: T;
-  campus_exclusive?: T;
-  location?: T;
-  map_url?: T;
-  status?: T;
-  is_invite_only?: T;
-  is_virtual?: T;
-  is_limited_seats?: T;
-  number_of_seats?: T;
-  seats_available?: T;
-  is_external?: T;
-  is_space?: T;
-  is_project_based?: T;
-  meet_url?: T;
-  project_submission_deadline?: T;
-  allow_non_github_links?: T;
-  is_team_project_submission?: T;
-  external_event_url?: T;
-  interests?: T;
-  skills?: T;
-  pre_invite?: T;
-  report_submitted?: T;
-  team_event?: T;
-  team_size?: T;
-  multiple_venue?: T;
-  discord_channel_url?: T;
-  discord_channel_name?: T;
-  is_dependent?: T;
-  has_prize?: T;
-  registration_deadline?: T;
-  group_id?: T;
-  prize_claim_deadline?: T;
-  group_mandatory?: T;
+  area?: T;
+  summary?: T;
+  purpose?: T;
+  process?: T;
+  expected_outcome?: T;
+  impact?:
+    | T
+    | {
+        impact_item?: T;
+        id?: T;
+      };
+  pre_event_checklist?:
+    | T
+    | {
+        checklist_item?: T;
+        id?: T;
+      };
+  post_event_checklist?:
+    | T
+    | {
+        checklist_item?: T;
+        id?: T;
+      };
+  curated_by?: T;
+  audience?: T;
+  resources_list?:
+    | T
+    | {
+        resource_item?: T;
+        id?: T;
+      };
+  event_details?:
+    | T
+    | {
+        event_item?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

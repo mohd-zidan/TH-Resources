@@ -9,8 +9,10 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import { Memberships } from './collections/Memberships';
-import { Events } from './collections/Events';
+import { Resources } from './collections/Resources'
+// Commenting out Memberships and Events as they are being removed
+// import { Memberships } from './collections/Memberships'
+// import { Events } from './collections/Events'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -18,15 +20,18 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
-    importMap: {
-      baseDir: path.resolve(dirname),
-    },
+    // Commenting out importMap as it might not be needed and could cause issues
+    // if its dependencies or purpose aren't aligned with the current project structure.
+    // importMap: {
+    //   baseDir: path.resolve(dirname),
+    // },
   },
   collections: [
     Users,
     Media,
-    Memberships, 
-    Events       
+    Resources,
+    // Memberships,
+    // Events
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
