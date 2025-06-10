@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload/types'
+import type { CollectionConfig } from 'payload'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
@@ -105,11 +105,7 @@ export const Resources: CollectionConfig = {
         },
       ],
       admin: {
-        description: 'Items to check or prepare before the event/activity.',
-        labels: {
-          singular: 'Checklist Item',
-          plural: 'Checklist Items',
-        },
+        description: 'Items to check or prepare before the event/activity.'
       },
     },
     {
@@ -125,11 +121,7 @@ export const Resources: CollectionConfig = {
         },
       ],
       admin: {
-        description: 'Items to follow up on after the event/activity.',
-        labels: {
-          singular: 'Checklist Item',
-          plural: 'Checklist Items',
-        },
+        description: 'Items to follow up on after the event/activity.'
       },
     },
     {
@@ -161,11 +153,7 @@ export const Resources: CollectionConfig = {
         },
       ],
       admin: {
-        description: 'List of related materials, links, or tools.',
-        labels: {
-          singular: 'Resource Item',
-          plural: 'Resource Items',
-        },
+        description: 'List of related materials, links, or tools.'
       },
     },
     {
@@ -181,11 +169,7 @@ export const Resources: CollectionConfig = {
         },
       ],
       admin: {
-        description: 'Key information related to an event if this resource is for one.',
-        labels: {
-          singular: 'Event Detail',
-          plural: 'Event Details',
-        },
+        description: 'Key information related to an event if this resource is for one.'
       },
     },
   ],

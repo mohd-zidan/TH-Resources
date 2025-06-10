@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import path from 'path'
-import type { InitOptions } from 'payload/config'
+import type { InitOptions } from 'payload'
 import payload, { Payload } from 'payload'
 import nodemailer from 'nodemailer'
 
@@ -44,8 +44,6 @@ export const getPayloadClient = async (args?: Args): Promise<Payload> => {
     const awaitedConfig = await configPromise // Resolve the config promise
     cached.promise = payload
       .init({
-        secret: process.env.PAYLOAD_SECRET,
-        local: true, // Key for using local API; this will load your payload.config.ts by path
         config: awaitedConfig, // Explicitly pass the resolved config
         ...(process.env.SMTP_HOST &&
           process.env.SMTP_USER &&
