@@ -62,6 +62,56 @@ Alternatively, you can use [Docker](https://www.docker.com) to spin up this temp
 
 That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
 
+## Deployment
+
+### Deploying to Vercel
+
+This project is configured to be deployed on Vercel using pnpm. Follow these steps to deploy:
+
+1. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
+2. Create a new project on [Vercel](https://vercel.com)
+3. Import your repository
+4. Vercel will automatically detect the Next.js framework
+5. Set up a PostgreSQL database:
+   - You can use services like [Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres), [Supabase](https://supabase.com/), [Neon](https://neon.tech/), or [Railway](https://railway.app/)
+   - Create a new PostgreSQL database instance
+   - Get the connection string in the format: `postgresql://username:password@hostname:port/database`
+6. Set the Node.js version in the Vercel dashboard (Settings > General > Node.js Version):
+   - Set it to 20.x (LTS) as specified in the package.json engines field
+
+7. Configure the following environment variables in the Vercel dashboard (Settings > Environment Variables):
+   - `PAYLOAD_SECRET`: A secure random string for encrypting sessions and JWT tokens
+   - `DATABASE_URI`: Your PostgreSQL connection string from step 5
+   - `PAYLOAD_PUBLIC_SERVER_URL`: The URL of your deployed application (e.g., `https://your-app.vercel.app`)
+   
+   Note: For security, it's better to set these values directly in the Vercel dashboard rather than using the `@` references in vercel.json
+8. Run database migrations:
+   - After the first deployment, you'll need to run migrations to set up your database schema
+   - You can do this by running a one-time command in the Vercel dashboard:
+     ```
+     pnpm run migrate
+     ```
+9. Deploy your application
+
+The included `vercel.json` file configures the build settings for pnpm, so no additional configuration is needed for the package manager.
+
+### Troubleshooting Vercel Deployment
+
+1. **Database Connection Issues**:
+   - Ensure your PostgreSQL database allows connections from Vercel's IP addresses
+   - Check that your connection string is correctly formatted
+   - Verify that the database user has the necessary permissions
+
+2. **Build Failures**:
+   - Check the build logs in Vercel for specific errors
+   - Ensure all dependencies are properly installed
+   - Make sure your Node.js version is compatible (this project requires Node.js 18.20.2 or 20.9.0+)
+
+3. **Runtime Errors**:
+   - Check that all required environment variables are set
+   - Verify that your database migrations have been applied
+   - Use Vercel's function logs to debug runtime issues
+
 ## Questions
 
 If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
