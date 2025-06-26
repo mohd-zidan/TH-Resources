@@ -14,7 +14,12 @@
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
     "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:create",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "test:db": "node scripts/test-db-connection.js",
+    "test:env": "node scripts/check-env-vars.js",
+    "test:payload": "node scripts/test-payload-init.js",
+    "test:api": "node scripts/test-nextjs-api.js",
+    "troubleshoot": "node scripts/troubleshoot.js"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.33.0",

@@ -112,6 +112,90 @@ The included `vercel.json` file configures the build settings for pnpm, so no ad
    - Verify that your database migrations have been applied
    - Use Vercel's function logs to debug runtime issues
 
+### Debugging 500 Internal Server Errors
+
+If you encounter a 500 Internal Server Error after deploying to Vercel, this project includes a comprehensive troubleshooting guide and several diagnostic tools to help you identify and fix the issue.
+
+#### Interactive Troubleshooting Guide
+
+Run the interactive troubleshooting guide to walk through all diagnostic steps:
+
+```bash
+# First, set your Vercel environment variables locally
+# You can copy them from the Vercel dashboard
+export PAYLOAD_SECRET="your_payload_secret"
+export DATABASE_URI="your_database_uri"
+export PAYLOAD_PUBLIC_SERVER_URL="your_server_url"
+
+# Then run the troubleshooting guide
+pnpm run troubleshoot
+```
+
+This guide will walk you through:
+- Environment variable checks
+- Database connection tests
+- Payload CMS initialization tests
+- Next.js API route tests
+- Common issues checklist
+- Instructions for viewing Vercel logs
+
+#### Individual Diagnostic Tools
+
+You can also run individual diagnostic tools:
+
+1. **Check Environment Variables**:
+   ```bash
+   pnpm run test:env
+   ```
+
+2. **Test Database Connection**:
+   ```bash
+   pnpm run test:db
+   ```
+
+3. **Test Payload CMS Initialization**:
+   ```bash
+   pnpm run test:payload
+   ```
+
+4. **Test Next.js API Routes**:
+   ```bash
+   pnpm run test:api
+   ```
+
+#### Viewing Vercel Logs
+
+To view the actual error details in Vercel:
+
+1. Go to your Vercel dashboard and select your project
+2. Navigate to the "Deployments" tab
+3. Click on the most recent deployment
+4. Select the "Functions" tab
+5. Look for any functions with errors (marked in red)
+6. Click on the function to view detailed logs
+
+#### Common Causes of 500 Errors
+
+1. **Database Connection Issues**:
+   - Check that your `DATABASE_URI` is correct and the database is accessible from Vercel
+   - Ensure your database allows connections from Vercel's IP addresses
+
+2. **Environment Variable Problems**:
+   - Ensure all required variables (`PAYLOAD_SECRET`, `DATABASE_URI`, `PAYLOAD_PUBLIC_SERVER_URL`) are set
+   - Verify that environment variable names match exactly what the code expects (e.g., `DATABASE_URI` not `DATABASE_URL`)
+
+3. **Database Migration Issues**:
+   - Make sure you've run `pnpm run migrate` after the initial deployment
+   - Check if database tables exist using the database test script
+
+4. **Node.js Version Compatibility**:
+   - Ensure you're using Node.js 20.x (LTS) as specified in the package.json engines field
+   - Set this in the Vercel dashboard under Settings > General > Node.js Version
+
+5. **Memory or Performance Limits**:
+   - Vercel functions have memory limits - check if your operations are exceeding these limits
+   - Consider optimizing database queries or reducing payload sizes
+
 ## Questions
 
 If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).

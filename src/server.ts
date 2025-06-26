@@ -34,9 +34,17 @@ async function start() {
       throw new Error('PAYLOAD_SECRET is required in environment variables');
     }
 
-    if (!process.env.DATABASE_URL) {
-      throw new Error('DATABASE_URL is required in environment variables');
+    if (!process.env.DATABASE_URI) {
+      throw new Error('DATABASE_URI is required in environment variables');
     }
+    
+    // Log environment variables for debugging (excluding sensitive values)
+    console.log('Environment variables check:', {
+      NODE_ENV: process.env.NODE_ENV,
+      PAYLOAD_PUBLIC_SERVER_URL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+      DATABASE_URI: process.env.DATABASE_URI ? 'Set' : 'Not set',
+      PAYLOAD_SECRET: process.env.PAYLOAD_SECRET ? 'Set' : 'Not set'
+    });
 
     // Initialize Payload (PostgreSQL configuration)
 
@@ -66,9 +74,20 @@ async function start() {
     // Global error handler (must be last)
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       console.error('Global error handler:', err);
+      console.error('Error stack:', err.stack);
+      
+      // Log additional details that might help with debugging
+      if (err.code) console.error('Error code:', err.code);
+      if (err.syscall) console.error('Error syscall:', err.syscall);
+      if (err.address) console.error('Error address:', err.address);
+      if (err.port) console.error('Error port:', err.port);
+      
+      // Send response
       res.status(500).json({
         error: 'Internal server error',
         message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong',
+        // Include stack trace in development mode
+        ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
       });
     });
 
