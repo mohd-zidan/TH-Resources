@@ -105,7 +105,7 @@ export const Resources: CollectionConfig = {
         },
       ],
       admin: {
-        description: 'Items to check or prepare before the event/activity.'
+        description: 'Items to check or prepare before the event/activity.',
       },
     },
     {
@@ -121,7 +121,7 @@ export const Resources: CollectionConfig = {
         },
       ],
       admin: {
-        description: 'Items to follow up on after the event/activity.'
+        description: 'Items to follow up on after the event/activity.',
       },
     },
     {
@@ -153,7 +153,7 @@ export const Resources: CollectionConfig = {
         },
       ],
       admin: {
-        description: 'List of related materials, links, or tools.'
+        description: 'List of related materials, links, or tools.',
       },
     },
     {
@@ -169,7 +169,21 @@ export const Resources: CollectionConfig = {
         },
       ],
       admin: {
-        description: 'Key information related to an event if this resource is for one.'
+        description: 'Key information related to an event if this resource is for one.',
+      },
+    },
+  ],
+  endpoints: [
+    {
+      path: '/public',
+      method: 'get',
+      handler: async (req) => {
+        const resources = await req.payload.find({
+          collection: 'resources',
+          depth: 1,
+        })
+
+        return Response.json(resources)
       },
     },
   ],
