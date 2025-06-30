@@ -1,7 +1,6 @@
 import { headers as getHeaders } from 'next/headers.js'
 import Image from 'next/image'
 import React from 'react'
-import { fileURLToPath } from 'url'
 
 import { getPayloadClient } from '@/payloadClient'
 import './styles.css'
@@ -12,7 +11,6 @@ export default async function HomePage() {
 
   const { user } = await payload.auth({ headers })
 
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
   const adminUrl = payload.getAdminURL()
 
   return (
